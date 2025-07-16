@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Generate Payslip</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 30px;
+            background-color: #f8f9fa;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 25px;
+            background-color: white;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .message, .error {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 12px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .message {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+
+<div th:if="${success}" class="message" th:text="${success}"></div>
+<div th:if="${error}" class="error" th:text="${error}"></div>
+
+<h2 class="text-center mb-4">Generate Employee Payslip</h2>
+
+<div class="form-container">
+    <form th:action="@{/adm/payslip/generate}" th:object="${payslip}" method="post">
+        <div class="mb-3">
+            <label class="form-label">Employee Name</label>
+            <input type="text" class="form-control" th:field="*{employeeName}" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Employee Email</label>
+            <input type="text" class="form-control" th:field="*{employeeEmail}" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Month (e.g. June 2025)</label>
+            <input type="text" class="form-control" th:field="*{month}" required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Basic Pay</label>
+            <input type="number" class="form-control" th:field="*{basicPay}" step="0.01" required />
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label">Deductions</label>
+            <input type="number" class="form-control" th:field="*{deductions}" step="0.01" required />
+        </div>
+
+        <div class="d-flex justify-content-between">
+            <a th:href="@{/adm/dashboard}" class="btn btn-secondary">Back to Dashboard</a>
+            <button type="submit" class="btn btn-success">Generate Payslip</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

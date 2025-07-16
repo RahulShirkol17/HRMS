@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee Timesheet</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f4f4f4;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        .buttons {
+            margin-bottom: 20px;
+        }
+
+        .buttons a {
+            text-decoration: none;
+            padding: 10px 15px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #eee;
+        }
+        
+        .bottom-nav {
+		    margin-top: 20px;
+		    text-align: left;
+		}
+		
+		.bottom-nav a {
+		    text-decoration: none;
+		    padding: 10px 15px;
+		    background-color: #2ecc71;
+		    color: white;
+		    border-radius: 5px;
+		    display: inline-block;
+		}
+    </style>
+</head>
+<body>
+    <h2>Timesheet</h2>
+	
+	<p th:if="${errorMessage}" th:text="${errorMessage}" style="color: red; font-weight: bold;"></p>
+	
+    <div class="buttons">
+	    <a th:if="${!loggedIn}" th:href="@{/mng/timesheet/login}">Log In</a>
+	    <a th:if="${loggedIn and !loggedOut}" th:href="@{/mng/timesheet/logout}">Log Out</a>
+	</div>
+	
+	<!-- Flash message display -->
+	<div th:if="${message}" style="color: green; font-weight: bold; margin-top: 10px;">
+	    <p th:text="${message}"></p>
+	</div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Login Time</th>
+                <th>Logout Time</th>
+                <th>Working Duration</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="entry : ${timesheetList}">
+                <td th:text="${entry.date}">2025-06-15</td>
+                <td th:text="${entry.loginTime}">09:00</td>
+                <td th:text="${entry.logoutTime}">18:00</td>
+                <td th:text="${entry.formattedWorkingDuration}">08:30:00</td>
+                <td th:text="${entry.status}">Working</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="bottom-nav">
+	    <a th:href="@{/mng/dashboard}">⬅ Back to Dashboard</a>
+	</div>
+</body>
+</html>

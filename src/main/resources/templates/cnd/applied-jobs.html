@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Applications</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 90%;
+            margin: auto;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .download-link {
+            color: #28a745;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .download-link:hover {
+            text-decoration: underline;
+        }
+        
+        .back-btn {
+            display: inline-block;
+            margin: 20px 0 20px 85px;
+            padding: 10px 18px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.2s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<h2>My Job Applications</h2>
+
+<table>
+    <thead>
+    <tr>
+        <th>Job Title</th>
+        <th>Applied Date</th>
+        <th>Resume</th>
+        <th>Cover Letter</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="app : ${applications}">
+        <td th:text="${app.job.title}">Software Engineer</td>
+        <td th:text="${app.appliedDate}">2025-06-19</td>
+        <td><a th:href="@{'/uploads/' + ${app.resumePath}}" target="_blank" class="download-link">Download</a></td>
+        <td><a th:href="@{'/uploads/' + ${app.coverLetterPath}}" target="_blank" class="download-link">Download</a></td>
+    </tr>
+    </tbody>
+</table>
+
+<a th:href="@{/cnd/dashboard}" class="back-btn">⬅ Back to Dashboard</a>
+
+</body>
+</html>

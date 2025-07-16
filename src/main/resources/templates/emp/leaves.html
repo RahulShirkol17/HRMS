@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee Leave Requests</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #f9f9f9; }
+        h2 { color: #2c3e50; }
+        form { margin-bottom: 30px; }
+        input, textarea, button {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            width: 300px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        th { background-color: #eee; }
+        .back-link {
+            margin-top: 20px;
+            display: inline-block;
+            background: #2ecc71;
+            padding: 10px 15px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Apply for Leave</h2>
+    
+    <form th:action="@{/emp/leaves/apply}" th:object="${leaveRequest}" method="post">
+        <label>Start Date:</label>
+        <input type="date" th:field="*{startDate}" required />
+
+        <label>End Date:</label>
+        <input type="date" th:field="*{endDate}" required />
+
+        <label>Reason:</label>
+        <textarea th:field="*{reason}" rows="4" required></textarea>
+
+        <button type="submit">Apply</button>
+    </form>
+
+    <h2>Your Leave Requests</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Applied Date</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Manager Comment</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="leave : ${leaveList}">
+                <td th:text="${leave.appliedDate}">2025-06-15</td>
+                <td th:text="${leave.startDate}">2025-06-20</td>
+                <td th:text="${leave.endDate}">2025-06-22</td>
+                <td th:text="${leave.reason}">Vacation</td>
+                <td th:text="${leave.status}">PENDING</td>
+                <td th:text="${leave.managerComment} ?: 'N/A'">N/A</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/emp/dashboard}" class="back-link">⬅ Back to Dashboard</a>
+</body>
+</html>

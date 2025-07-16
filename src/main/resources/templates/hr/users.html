@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Management</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var updateModal = document.getElementById('updateUserModal');
+    updateModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+
+        document.getElementById('update-id').value = button.getAttribute('data-id');
+        document.getElementById('update-name').value = button.getAttribute('data-name');
+        document.getElementById('update-email').value = button.getAttribute('data-email');
+        document.getElementById('update-designation').value = button.getAttribute('data-designation');
+        document.getElementById('update-role').value = button.getAttribute('data-role');
+        document.getElementById('update-mobile').value = button.getAttribute('data-mobile');
+        document.getElementById('update-address').value = button.getAttribute('data-address');
+        document.getElementById('update-baselocation').value = button.getAttribute('data-baselocation');
+        document.getElementById('update-experience').value = button.getAttribute('data-experience');
+    });
+});
+</script>
+<body>
+<!-- Add User Modal -->
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <form th:action="@{/hr/users/add}" method="post" class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addUserModalLabel">Add New User</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Full Name</label>
+            <input type="text" name="name" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Designation</label>
+            <input type="text" name="designation" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Role</label>
+            <select name="role" class="form-select" required>
+              <option value="EMPLOYEE">Employee</option>
+              <option value="MANAGER">Manager</option>
+              <!-- no HR_MANAGER to prevent HR from adding another HR -->
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Mobile Number</label>
+            <input type="text" name="mobileNumber" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Address</label>
+            <input type="text" name="address" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Base Location</label>
+            <input type="text" name="baseLocation" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Years of Experience</label>
+            <input type="number" name="yearsOfExperience" class="form-control" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" required>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Update User Modal -->
+<div class="modal fade" id="updateUserModal" tabindex="-1" aria-labelledby="updateUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <form th:action="@{/hr/users/update}" method="post" class="modal-content">
+      <input type="hidden" name="id" id="update-id">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateUserModalLabel">Update User</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Full Name</label>
+            <input type="text" name="name" class="form-control" id="update-name" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" id="update-email" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Designation</label>
+            <input type="text" name="designation" class="form-control" id="update-designation" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Role</label>
+            <select name="role" class="form-select" id="update-role" required>
+              <option value="EMPLOYEE">Employee</option>
+              <option value="MANAGER">Manager</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Mobile Number</label>
+            <input type="text" name="userDetails.mobileNumber" class="form-control" id="update-mobile" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Address</label>
+            <input type="text" name="userDetails.address" class="form-control" id="update-address" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Base Location</label>
+            <input type="text" name="userDetails.baseLocation" class="form-control" id="update-baselocation" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Years of Experience</label>
+            <input type="number" name="userDetails.yearsOfExperience" class="form-control" id="update-experience" required>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="container mt-4">
+    <h2 class="mb-4">Manage Users</h2>
+	
+    <table class="table table-bordered table-hover">
+        <thead class="table-primary">
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Designation</th>
+                <th>Role</th>
+                <th>Mobile</th>
+                <th>Address</th>
+                <th>Base Location</th>
+                <th>Experience</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr th:each="detail : ${userDetailsList}" th:if="${detail.user.role.name != 'HR_MANAGER'}">
+            <td th:text="${detail.user.name}">John Doe</td>
+            <td th:text="${detail.user.email}">john@example.com</td>
+            <td th:text="${detail.user.designation}">Software Engineer</td>
+            <td th:text="${detail.user.role}">Software Engineer</td>
+            <td th:text="${detail.mobileNumber}">1234567890</td>
+            <td th:text="${detail.address}">123 Street</td>
+            <td th:text="${detail.baseLocation}">Bangalore</td>
+            <td th:text="${detail.yearsOfExperience}">5</td>
+            <td>
+                <button type="button"
+				    class="btn btn-sm btn-warning"
+				    data-bs-toggle="modal"
+				    data-bs-target="#updateUserModal"
+				    th:attr="data-id=${detail.user.id},
+				             data-name=${detail.user.name},
+				             data-email=${detail.user.email},
+				             data-designation=${detail.user.designation},
+				             data-role=${detail.user.role.name},
+				             data-mobile=${detail.mobileNumber},
+				             data-address=${detail.address},
+				             data-baselocation=${detail.baseLocation},
+				             data-experience=${detail.yearsOfExperience}">
+				    Update
+				</button>
+                <a th:href="@{/hr/users/delete/{id}(id=${detail.user.id})}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(userDetailsList)}">
+            <td colspan="8" class="text-center text-muted">No users found.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="text-end">
+	    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addUserModal">Add User</button>
+	</div>
+
+    <div class="mt-3">
+        <a th:href="@{/hr/dashboard}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>
+</body>
+</html>

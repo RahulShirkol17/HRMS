@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Personal Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 60%;
+            margin: 40px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        input[readonly], textarea[readonly] {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .edit-btn {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .submit-btn {
+            background-color: #28a745;
+            color: #fff;
+            display: none;
+        }
+        
+        .back-link {
+            margin-top: 20px;
+            display: inline-block;
+            background: #2ecc71;
+            padding: 10px 15px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+
+    <script>
+        function enableEdit() {
+            const fields = document.querySelectorAll('input, textarea');
+            fields.forEach(field => {
+                if (field.name !== 'id' && field.name !== 'status') {
+                    field.removeAttribute('readonly');
+                }
+            });
+            document.getElementById('submitBtn').style.display = 'inline-block';
+            document.getElementById('editBtn').style.display = 'none';
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Personal Details</h2>
+        <form th:action="@{/emp/personal-details/update}" method="post" th:object="${userDetails}">
+            <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:field="*{status}" value="PENDING" />
+
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" th:field="*{user.name}" readonly />
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" th:field="*{user.email}" readonly />
+            </div>
+
+            <div class="form-group">
+                <label>Mobile Number</label>
+                <input type="text" th:field="*{mobileNumber}" readonly />
+            </div>
+
+            <div class="form-group">
+                <label>Address</label>
+                <textarea th:field="*{address}" readonly></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Base Location</label>
+                <input type="text" th:field="*{baseLocation}" readonly />
+            </div>
+
+            <div class="form-group">
+                <label>Years of Experience</label>
+                <input type="number" th:field="*{yearsOfExperience}" readonly />
+            </div>
+
+            <div class="button-container">
+                <button type="button" id="editBtn" class="edit-btn" onclick="enableEdit()">Edit</button>
+                <button type="submit" id="submitBtn" class="submit-btn">Submit for Approval</button>
+                <a th:href="@{/emp/dashboard}" class="back-link">⬅ Back</a>
+            </div>
+        </form>
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Register User</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .message {
+            color: green;
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .btn-green {
+		    margin-top: 20px;
+		    width: 100%;
+		    padding: 10px;
+		    background: #28a745;
+		    color: white;
+		    border: none;
+		    border-radius: 5px;
+		    cursor: pointer;
+		    text-align: center;
+		    font-size: 16px;
+		    background-color: #28a745;
+    		color: white;
+		}
+		
+		.btn-green:hover {
+		    background: #218838;
+		}
+		
+		.btn-gray {
+		    display: inline-block;
+		    width: 100%;
+		    padding: 10px;
+		    margin-top: 10px;
+		    font-size: 16px;
+		    font-family: inherit;
+		    text-align: center;
+		    text-decoration: none;
+		    border: none;
+		    border-radius: 5px;
+		    box-sizing: border-box;
+		    cursor: pointer;
+		    background-color: #6c757d;
+    		color: white;
+		}
+		
+		.btn-gray:hover {
+		    background: #5a6268;
+		}
+        
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Register New User</h2>
+        <form id="registerForm">
+            <label>Name:</label>
+            <input type="text" name="name" required />
+
+            <label>Email:</label>
+            <input type="email" name="email" required />
+
+            <label>Password:</label>
+            <input type="password" name="password" required />
+
+            <label>Designation:</label>
+            <input type="text" name="designation" />
+
+            <label>Role:</label>
+            <select name="role">
+                <option value="CANDIDATE">CANDIDATE</option>
+            </select>
+
+            <button type="submit" class="btn-green">Register</button>
+            <a th:href="@{/}" class="btn-gray">Back</a>
+
+            <div class="message" id="responseMessage"></div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("registerForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const formData = new FormData(form);
+            const user = Object.fromEntries(formData);
+
+            const response = await fetch('/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(user),
+                credentials: 'include'
+            });
+
+            const message = await response.text();
+            document.getElementById("responseMessage").textContent = message;
+            form.reset();
+        });
+    </script>
+</body>
+</html>
